@@ -7,6 +7,8 @@ from wsgiref.simple_server import make_server
 from jinja2 import Template
 
 ############################ REQUEST OBJECT ###############################
+
+
 class Request:
     """ 
     A wrapper for WSGI environment dictionaries. All methods are readble only
@@ -70,6 +72,8 @@ class Request:
         return '<%s: %s %s queryset=%s>' % (self.__class__.__name__, self.method, self.path, self.get_qs)
 
 ########################### RESPONSE OBJECT ###############################
+
+
 class Response:
     """ 
     Class for a response body and headers.
@@ -112,6 +116,7 @@ class TemplateResponse(Response):
                        including the reason phrase (e.g. '200 OK').
     :param context: A dictionary of list-value pair to be inserted in template.
     """
+
     def __init__(self, template, context={}, **kwargs):
         super().__init__(**kwargs)
         self.template = template
@@ -188,9 +193,11 @@ class Jahan:
         WSGI instance application, excepts enviorn and start_response to be passed by wsgi server
         """
         try:
-           request = Request(enviorn)
-           callback, args = self.router.match(request.path)
-           response = callback(request, *args)
+            request = Request(enviorn)
+            print("ENV>>", enviorn)
+            callback, args = self.router.match(request.path)
+            response = callback(request, *args)
+            # print("HEAD>>", response.headers.items())
         except:
             response = Response("<h1>Not Found</h1>", status=404)
 
