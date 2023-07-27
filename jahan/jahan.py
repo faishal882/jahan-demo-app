@@ -43,7 +43,6 @@ class Request:
             length = 0
         if length != 0:
             data = self.environ['wsgi.input'].read(length).decode('utf8')
-
         get_data = urllib.parse.parse_qs(data)
         return {k: v[0] for k, v in get_data.items()}
 
@@ -194,10 +193,8 @@ class Jahan:
         """
         try:
             request = Request(enviorn)
-            print("ENV>>", enviorn)
             callback, args = self.router.match(request.path)
             response = callback(request, *args)
-            # print("HEAD>>", response.headers.items())
         except:
             response = Response("<h1>Not Found</h1>", status=404)
 
@@ -209,12 +206,12 @@ def run(application, **kwargs):
     """
     Run the Jahan.application: WSGI instance with simple inbuilt wsgiref server.
     """
-    pass
-    # with make_server("", 8000, application.application) as httpd:
-    #     print("Serving on http://127.0.0.1:8000/ ")
-    #     print('Press CTRL + C to exit..')
-    #     try:
-    #         # Serve until process is killed
-    #         httpd.serve_forever()
-    #     except KeyboardInterrupt:
-    #         print('exit')
+    # pass
+    with make_server("", 8000, application.application) as httpd:
+        print("Serving on http://127.0.0.1:8000/ ")
+        print('Press CTRL + C to exit..')
+        try:
+            # Serve until process is killed
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print('exit')

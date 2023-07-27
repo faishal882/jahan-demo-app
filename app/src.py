@@ -5,11 +5,6 @@ app = Jahan(__name__)
 
 db = session_local()
 Base.metadata.create_all(bind=engine)
- 
-# @app.add_route(r'/$')
-# def index(request):
-#     print(request)
-#     return Response(f'<b>Hello how are you Faishal </b>!')
 
 # Get all the employees
 @app.add_route(r'/$')
