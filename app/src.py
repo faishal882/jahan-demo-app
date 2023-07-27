@@ -6,11 +6,12 @@ app = Jahan(__name__)
 db = session_local()
 Base.metadata.create_all(bind=engine)
  
-@app.add_route(r'/hi/(.*)/$')
-def index(request, name):
-    print(request, name)
-    return Response(f'<b>Hello how are you {name} </b>!')
+# @app.add_route(r'/$')
+# def index(request):
+#     print(request)
+#     return Response(f'<b>Hello how are you Faishal </b>!')
 
+# Get all the employees
 @app.add_route(r'/$')
 def get_employees(request):
    context = []
@@ -25,6 +26,7 @@ def get_employees(request):
                            context={"employees": context}, status=200)
 
 
+# Add employee in the database
 @app.add_route(r'/add/employee/$')
 def add_employee(request):
     post_data = request.get_post

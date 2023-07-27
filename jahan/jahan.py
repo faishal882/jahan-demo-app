@@ -188,9 +188,9 @@ class Jahan:
         WSGI instance application, excepts enviorn and start_response to be passed by wsgi server
         """
         try:
-            request = Request(enviorn)
-            callback, args = self.router.match(request.path)
-            response = callback(request, *args)
+           request = Request(enviorn)
+           callback, args = self.router.match(request.path)
+           response = callback(request, *args)
         except:
             response = Response("<h1>Not Found</h1>", status=404)
 
@@ -202,11 +202,12 @@ def run(application, **kwargs):
     """
     Run the Jahan.application: WSGI instance with simple inbuilt wsgiref server.
     """
-    with make_server("", 8000, application.application) as httpd:
-        print("Serving on http://127.0.0.1:8000/ ")
-        print('Press CTRL + C to exit..')
-        try:
-            # Serve until process is killed
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print('exit')
+    pass
+    # with make_server("", 8000, application.application) as httpd:
+    #     print("Serving on http://127.0.0.1:8000/ ")
+    #     print('Press CTRL + C to exit..')
+    #     try:
+    #         # Serve until process is killed
+    #         httpd.serve_forever()
+    #     except KeyboardInterrupt:
+    #         print('exit')
