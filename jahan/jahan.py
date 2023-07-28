@@ -6,9 +6,8 @@ from wsgiref.simple_server import make_server
 
 from jinja2 import Template
 
+
 ############################ REQUEST OBJECT ###############################
-
-
 class Request:
     """ 
     A wrapper for WSGI environment dictionaries. All methods are readble only
@@ -70,9 +69,8 @@ class Request:
     def __repr__(self):
         return '<%s: %s %s queryset=%s>' % (self.__class__.__name__, self.method, self.path, self.get_qs)
 
+
 ########################### RESPONSE OBJECT ###############################
-
-
 class Response:
     """ 
     Class for a response body and headers.
@@ -206,7 +204,6 @@ def run(application, **kwargs):
     """
     Run the Jahan.application: WSGI instance with simple inbuilt wsgiref server.
     """
-    # pass
     with make_server("", 8000, application.application) as httpd:
         print("Serving on http://127.0.0.1:8000/ ")
         print('Press CTRL + C to exit..')

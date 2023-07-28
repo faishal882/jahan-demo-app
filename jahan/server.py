@@ -1,9 +1,11 @@
 import socket
 import sys
 import io
+import threading
 
 
 def check_header(key, headers):
+   
     if key in headers:
         return
     else:
@@ -12,6 +14,7 @@ def check_header(key, headers):
 
 
 def standarize_header(header):
+    # Function to standardize the header keys
     keys = [
         'SERVER_PROTOCOL',
         'REQUEST_METHOD',
@@ -42,10 +45,11 @@ def standarize_header(header):
 
 
 def parse_header(request_str):
+    # Function to parse the request header and body
     headers = {}
     body = ''
     if request_str != "":
-        #Split request text into headers and body using the empty line as delimiter
+        # Split request text into headers and body using the empty line as delimiter
         try:
             headers_text, body_text = request_str.strip().split('\r\n\r\n', 1)
         except:
@@ -110,7 +114,7 @@ class WSGIServer:
                 'HTTP_HOST': _header['Host'],
                 'HTTP_CONNECTION': _header['Connection'],
                 'HTTP_CACHE_CONTROL': _header['Cache-Control'],
-                'HTTP_SEC_CH_UA': _header['sec-ch-ua'], 
+                'HTTP_SEC_CH_UA': _header['sec-ch-ua'],
                 'HTTP_SEC_CH_UA_MOBILE': _header['sec-ch-ua-mobile'],
                 'HTTP_SEC_CH_UA_PLATFORM': _header['sec-ch-ua-platform'],
                 'HTTP_UPGRADE_INSECURE_REQUESTS': _header['Upgrade-Insecure-Requests'],
@@ -130,7 +134,7 @@ class WSGIServer:
                 'wsgi.async': False,
                 'wsgi.run_once': False,
                 'wsgi.url_scheme': 'http',
-                'wsgi.multithread': False,
+                'wsgi.multithread': True,
                 'wsgi.multiprocess': False,
             }
             response = self.app(wsgi_env, self.start_response)
@@ -161,13 +165,14 @@ class WSGIServer:
     def serve_forever(self):
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.bind((self.host, self.port))
-        # server_socket.listen()
         server_socket.listen(5)
 
         try:
             while True:
                 conn, addr = server_socket.accept()
-                self.handle_request(conn)
+                thread = threading.Thread(
+                    target=self.handle_request, args=(conn,))
+                thread.start()
         except KeyboardInterrupt:
             print("Server stopped by KeyboardInterrupt (Ctrl+C)")
         finally:
