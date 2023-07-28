@@ -1,5 +1,5 @@
 from app.src import app
-from jahan.server import WSGIServer
+from server.server import WSGIServer
 
 application = app.application
 
