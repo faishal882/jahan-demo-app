@@ -8,7 +8,7 @@ Base.metadata.create_all(bind=engine)
 
 # Get all the employees
 @app.add_route(r'/$')
-def get_employees(request):
+def get_employees(request, *args, **kwargs):
    context = []
    for class_instance in db.query(Employee).all():
       context.append({"name": vars(class_instance)["name"], 
@@ -23,10 +23,9 @@ def get_employees(request):
 
 # Add employee in the database
 @app.add_route(r'/add/employee/$')
-def add_employee(request):
+def add_employee(request, *args, **kwargs):
     post_data = request.get_post
     if request.method == 'POST':
-          print("I AM CALLED")
           print(post_data)
           _record = Employee(name=post_data["name"], 
                              position=post_data["position"], 

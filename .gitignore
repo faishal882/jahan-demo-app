@@ -56,7 +56,7 @@ coverage.xml
 cover/
 
 # Database
-test.db
+sqlite.db
 
 
 # Environments

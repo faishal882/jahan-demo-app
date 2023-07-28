@@ -1,11 +1,16 @@
-import socket
 import sys
 import io
+import socket
 import threading
 
+__version__ = "1.0"
 
-def check_header(key, headers):
-   
+def check_header(key: str, headers: dict):
+    """
+    check for specified key in header dictionary,
+    if not present defaults to empty value
+     :params: key<str>, headers<dictionary> 
+    """
     if key in headers:
         return
     else:
@@ -13,8 +18,11 @@ def check_header(key, headers):
     return headers
 
 
-def standarize_header(header):
-    # Function to standardize the header keys
+def standarize_header(header: dict):
+    """
+    standarize the header from request    
+     :params: headers<dictionary> 
+    """
     keys = [
         'SERVER_PROTOCOL',
         'REQUEST_METHOD',
@@ -44,8 +52,13 @@ def standarize_header(header):
     return header
 
 
-def parse_header(request_str):
-    # Function to parse the request header and body
+def parse_header(request_str: str):
+    """
+    Function to parse the request header and body,
+    header parsed into dict, body into str
+    returns (header, body)
+     :params: request_str<str> 
+    """
     headers = {}
     body = ''
     if request_str != "":
@@ -70,7 +83,13 @@ def parse_header(request_str):
 
 
 class WSGIServer:
-    def __init__(self, host, port, app):
+    """
+    WSGIServer that implements the Python WSGI protocol
+    For running simple web applications on a local machine, such as might be done when testing or debugging an application. None of the security issues tested
+     :param: host<str>, port<int>, app<WSGIapplication>
+    """
+
+    def __init__(self, host: str, port: int, app):
         self.host = host
         self.port = port
         self.app = app

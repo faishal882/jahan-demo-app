@@ -19,9 +19,9 @@ class Request:
     @property
     def get_qs(self):
         """
-        method allows you to get data provided by user via GET method or else returns {}
+        method allows you to get data provided by user via query string or else returns {}
 
-           Use: request = Resquest()
+           Use: request = Request()
               : requset.get_qs 
         """
         get_args = urllib.parse.parse_qs(self.environ['QUERY_STRING'])
@@ -171,7 +171,10 @@ class Jahan:
         self.router = Router()
 
     def run(self, **kwargs):
-        """" Calls :func:`run` with the wsgi instance application. """
+        """" 
+        Calls :func:`run` with the wsgi instance application.
+        Runs WSGI application with built in python wsgiref server
+        """
         run(self, **kwargs)
 
     def add_route(self, route):
