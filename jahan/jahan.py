@@ -6,6 +6,7 @@ from wsgiref.simple_server import make_server
 
 from jinja2 import Template
 
+__version__ = "1.0"
 
 ############################ REQUEST OBJECT ###############################
 class Request:
